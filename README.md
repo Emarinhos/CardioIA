@@ -24,7 +24,7 @@ CardioIA_Fase1_Dados/
 
 **Origem:** dados simulados (sintéticos), gerados pelo script [notebooks/gerar_dataset.py](notebooks/gerar_dataset.py) com semente fixa para reprodutibilidade. Optou-se por dados simulados porque dados clínicos reais são protegidos por questões éticas, legais e de privacidade — uma restrição comum e legítima em projetos de IA na saúde. O gerador embute correlações clinicamente plausíveis (idade, tabagismo e diabetes elevam a taxa de doença), o que torna a base útil para o aprendizado de padrões reais nas fases seguintes.
 
-**Link público para o dataset completo:** [https://drive.google.com/drive/folders/1O_84GUkaW6_6iOFTlTy0y07eaLDM1v9s?usp=sharing](https://drive.google.com/drive/folders/1O_84GUkaW6_6iOFTlTy0y07eaLDM1v9s?usp=sharing) (garanta acesso "qualquer pessoa com o link" para a correção da FIAP).
+**Link público para o dataset completo:** [https://drive.google.com/drive/folders/1O_84GUkaW6_6iOFTlTy0y07eaLDM1v9s?usp=sharing](https://drive.google.com/drive/folders/1O_84GUkaW6_6iOFTlTy0y07eaLDM1v9s?usp=sharing) 
 
 ### Variáveis mais relevantes do ponto de vista clínico
 - **idade** — principal fator de risco não modificável; risco cardiovascular cresce de forma acentuada com a idade.
