@@ -94,7 +94,9 @@ df = pd.DataFrame({
 idx_missing = rng.choice(N, size=int(0.015 * N), replace=False)
 df.loc[idx_missing, "colesterol_total_mgdl"] = np.nan
 
-out = "/home/claude/CardioIA_Fase1_Dados/data/pacientes_cardiacos.csv"
+import os
+repo_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+out = os.path.join(repo_dir, "data", "pacientes_cardiacos.csv")
 df.to_csv(out, index=False)
 
 print("Dataset gerado:", out)
