@@ -96,3 +96,9 @@ python notebooks/gerar_dataset.py
 
 ---
 **Projeto acadêmico** — FIAP · Método PBL (Project Based Learning).
+
+## Equipe
+- Everton Marinho Souza (RM 566767)
+- Felipe de Souza Lourenço (RM 567521)
+- Matheus Ribeiro Martelletti (RM 566767)
+- Júlia Gutierres Fernandes Souza (RM 568296)
