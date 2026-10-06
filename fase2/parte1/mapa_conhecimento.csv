@@ -1,0 +1,64 @@
+sintoma_1,sintoma_2,doenca_associada
+dor no peito,aperto no peito,Infarto Agudo do Miocárdio
+dor no peito em aperto,braço esquerdo,Infarto Agudo do Miocárdio
+aperto no tórax,suor frio,Infarto Agudo do Miocárdio
+pressão no peito,dor no braço,Infarto Agudo do Miocárdio
+dor que irradia,mandíbula,Infarto Agudo do Miocárdio
+dor forte no peito,náusea,Infarto Agudo do Miocárdio
+queimação no peito,suor frio,Infarto Agudo do Miocárdio
+dor no peito,piora quando faço esforço,Infarto Agudo do Miocárdio
+dor no peito,esforço físico,Infarto Agudo do Miocárdio
+dor no peito,quando caminho,Angina
+dor no peito,passa quando paro,Angina
+dor no peito,passa com repouso,Angina
+aperto no peito,subir escada,Angina
+desconforto no peito,quando paro para descansar,Angina
+dor no peito,estresse,Angina
+peso no peito,caminho rápido,Angina
+cansaço constante,fadiga,Insuficiência Cardíaca
+cansaço,mesmo depois de descansar,Insuficiência Cardíaca
+pernas inchadas,inchaço nos tornozelos,Insuficiência Cardíaca
+inchadas no fim do dia,pés inchados,Insuficiência Cardíaca
+falta de ar deitado,dois travesseiros,Insuficiência Cardíaca
+acordo sem ar,tosse à noite,Insuficiência Cardíaca
+ganho de peso rápido,barriga inchada,Insuficiência Cardíaca
+coração disparado,palpitações,Arritmia
+coração acelerado,batimento irregular,Arritmia
+coração falhando,pulsação descompassada,Arritmia
+tonto,tontura,Arritmia
+desmaio,quase desmaiei,Arritmia
+palpitações do nada,coração pulando,Arritmia
+dor de cabeça na nuca,pressão alta,Hipertensão Arterial
+visão embaçada,visão fica embaçada,Hipertensão Arterial
+zumbido no ouvido,rosto vermelho,Hipertensão Arterial
+sangramento no nariz,dor de cabeça,Hipertensão Arterial
+acordo com dor de cabeça,nuca,Hipertensão Arterial
+braço dormente,boca torta,Acidente Vascular Cerebral (AVC)
+braço direito ficou dormente,a boca ficou torta,Acidente Vascular Cerebral (AVC)
+falar enrolado,fala arrastada,Acidente Vascular Cerebral (AVC)
+fraqueza de um lado do corpo,perda de equilíbrio,Acidente Vascular Cerebral (AVC)
+dormência no rosto,visão dupla,Acidente Vascular Cerebral (AVC)
+dor de cabeça súbita,confusão mental,Acidente Vascular Cerebral (AVC)
+piora quando deito,inclino o corpo para frente,Pericardite
+dor no peito,piora ao respirar,Pericardite
+dor que melhora sentado,febre,Pericardite
+dor pontada no peito,piora quando deito,Pericardite
+depois de uma gripe,febre baixa,Miocardite
+após infecção viral,coração acelerado,Miocardite
+falta de ar,cansaço depois de virose,Miocardite
+dor no peito,depois de uma gripe,Miocardite
+panturrilha inchada,dolorida,Trombose Venosa Profunda / Embolia Pulmonar
+perna inchada de um lado só,perna vermelha,Trombose Venosa Profunda / Embolia Pulmonar
+viagem longa,falta de ar de repente,Trombose Venosa Profunda / Embolia Pulmonar
+dor ao respirar fundo,tosse com sangue,Trombose Venosa Profunda / Embolia Pulmonar
+muito tempo sentado,panturrilha,Trombose Venosa Profunda / Embolia Pulmonar
+febre que vai e volta,suor noturno,Endocardite Infecciosa
+perdi peso,sem fazer dieta,Endocardite Infecciosa
+manchas nos dedos,manchas na pele,Endocardite Infecciosa
+tratamento dentário,febre,Endocardite Infecciosa
+calafrios,febre prolongada,Endocardite Infecciosa
+sopro no coração,desmaio ao fazer esforço,Estenose Aórtica
+falta de ar no esforço,dor no peito ao correr,Estenose Aórtica
+dor na perna ao caminhar,pé frio,Doença Arterial Periférica
+câimbra na panturrilha,melhora quando paro,Doença Arterial Periférica
+ferida que não cicatriza,perna fria,Doença Arterial Periférica

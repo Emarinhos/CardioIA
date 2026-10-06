@@ -88,6 +88,10 @@ O raio-X de tórax é um dos exames mais frequentes e de baixo custo, mas sua le
 - **Rótulos imperfeitos:** os rótulos foram extraídos por NLP dos laudos, com acurácia estimada acima de 90% — ou seja, contêm ruído, o que deve ser considerado.
 - **Classes desbalanceadas:** a cardiomegalia representa uma fração pequena do total de imagens; ao montar o subconjunto, é importante balancear casos positivos e negativos para não enviesar o modelo.
 
+## Fase 2 — Diagnóstico Automatizado
+
+Os arquivos da Fase 2 (extração de sintomas com mapa de conhecimento e classificador de risco com TF-IDF) estão na pasta [fase2/](fase2/). Instruções, resultados e o link do vídeo estão em [fase2/README.md](fase2/README.md).
+
 ## Como regerar o dataset numérico
 ```bash
 pip install numpy pandas
