@@ -16,7 +16,7 @@ fase2/
 ├── README.md
 ├── parte1/
 │   ├── frases_sintomas.txt          # 10 relatos de pacientes
-│   ├── mapa_conhecimento.csv        # 63 associações sintoma -> doença
+│   ├── mapa_conhecimento.csv        # 64 associações sintoma -> doença
 │   ├── diagnostico_sintomas.ipynb   # leitura, extração e diagnóstico
 │   └── resultado_diagnosticos.csv   # saída gerada pelo notebook
 └── parte2/
@@ -44,7 +44,7 @@ São 10 frases escritas como um paciente falaria. Cada uma traz **o que a pessoa
 As frases foram pensadas para cobrir doenças diferentes: infarto, angina, insuficiência cardíaca, arritmia, hipertensão, AVC, pericardite, miocardite, trombose/embolia pulmonar e endocardite.
 
 ### Mapa de conhecimento (`mapa_conhecimento.csv`)
-Usa as colunas `sintoma_1, sintoma_2, doenca_associada`. São 63 linhas e 12 doenças, com sinônimos e variações de escrita ("dor no peito", "aperto no tórax", "pressão no peito"...).
+Usa as colunas `sintoma_1, sintoma_2, doenca_associada`. São 64 linhas e 12 doenças, com sinônimos e variações de escrita ("dor no peito", "aperto no tórax", "pressão no peito"...).
 
 ### Como o diagnóstico é feito (`diagnostico_sintomas.ipynb`)
 1. O texto é normalizado: minúsculas e sem acentos.
