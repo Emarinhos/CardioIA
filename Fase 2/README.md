@@ -51,7 +51,7 @@ O notebook usa NLP simbólico, baseado em regras, para que a sugestão mostre ex
 
 1. O estemizador **RSLP** reduz cada palavra ao radical (`tonta`/`tonto` → `tont`), ainda com acentos, porque o RSLP precisa deles para aplicar as regras.
 2. O texto é normalizado: minúsculas e sem acentos. A busca compara radicais, por palavra inteira, e não o texto exato.
-3. Sintomas **negados** nas três palavras anteriores ("não", "nunca", "sem") são descartados.
+3. Sintomas **negados** nas três palavras anteriores ("não", "nunca", "nem") são descartados.
 4. Cada sintoma que restou soma **1 ponto** para a doença. Se os dois sintomas da mesma linha aparecem juntos, a doença ganha **1 ponto extra**.
 5. A doença com mais pontos é a sugestão principal, e as próximas aparecem como "outras possibilidades".
 6. Uma regex extrai também **quando os sintomas começaram** ("há dois dias", "desde ontem", "hoje de manhã").
@@ -61,16 +61,16 @@ O sistema acertou o diagnóstico esperado nas **10 frases**:
 
 | Paciente | Início | Diagnóstico sugerido | Pontos |
 |---|---|---|---|
-| 1 | há dois dias | Infarto Agudo do Miocárdio | 8 |
-| 2 | há uma semana | Insuficiência Cardíaca | 6 |
-| 3 | desde ontem | Arritmia | 5 |
+| 1 | há dois dias | Infarto Agudo do Miocárdio | 5 |
+| 2 | há uma semana | Insuficiência Cardíaca | 4 |
+| 3 | desde ontem | Arritmia | 4 |
 | 4 | há três semanas | Angina | 7 |
-| 5 | faz uns dez dias | Hipertensão Arterial | 6 |
+| 5 | faz uns dez dias | Hipertensão Arterial | 3 |
 | 6 | hoje de manhã | AVC | 4 |
 | 7 | há quatro dias | Pericardite | 4 |
 | 8 | há duas semanas | Miocardite | 5 |
 | 9 | há cinco dias | Trombose Venosa Profunda / Embolia Pulmonar | 6 |
-| 10 | há um mês | Endocardite Infecciosa | 10 |
+| 10 | há um mês | Endocardite Infecciosa | 8 |
 
 **Limitações** (detalhadas no final do notebook):
 
