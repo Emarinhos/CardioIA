@@ -27,7 +27,7 @@ Fase 2/
 ## Como executar
 
 ```bash
-pip install pandas scikit-learn matplotlib jupyter
+pip install pandas scikit-learn matplotlib jupyter nltk
 ```
 
 Abra os notebooks pelo Jupyter ou VS Code **a partir da pasta de cada parte**, já que os arquivos são lidos por caminho relativo, e execute todas as células.
@@ -47,11 +47,14 @@ As frases foram pensadas para cobrir doenças diferentes: infarto, angina, insuf
 Usa as colunas `sintoma_1, sintoma_2, doenca_associada`. São 64 linhas e 12 doenças, com sinônimos e variações de escrita ("dor no peito", "aperto no tórax", "pressão no peito"...).
 
 ### Como o diagnóstico é feito (`diagnostico_sintomas.ipynb`)
-1. O texto é normalizado: minúsculas e sem acentos.
-2. Cada expressão do mapa é procurada dentro da frase.
-3. Cada sintoma encontrado soma **1 ponto** para a doença. Se os dois sintomas da mesma linha aparecem juntos, a doença ganha **1 ponto extra**.
-4. A doença com mais pontos é a sugestão principal, e as próximas aparecem como "outras possibilidades".
-5. Uma regex extrai também **quando os sintomas começaram** ("há dois dias", "desde ontem", "hoje de manhã").
+O notebook usa NLP simbólico, baseado em regras, para que a sugestão mostre exatamente quais sintomas levaram a cada doença.
+
+1. O estemizador **RSLP** reduz cada palavra ao radical (`tonta`/`tonto` → `tont`), ainda com acentos, porque o RSLP precisa deles para aplicar as regras.
+2. O texto é normalizado: minúsculas e sem acentos. A busca compara radicais, por palavra inteira, e não o texto exato.
+3. Sintomas **negados** nas três palavras anteriores ("não", "nunca", "sem") são descartados.
+4. Cada sintoma que restou soma **1 ponto** para a doença. Se os dois sintomas da mesma linha aparecem juntos, a doença ganha **1 ponto extra**.
+5. A doença com mais pontos é a sugestão principal, e as próximas aparecem como "outras possibilidades".
+6. Uma regex extrai também **quando os sintomas começaram** ("há dois dias", "desde ontem", "hoje de manhã").
 
 ### Resultado
 O sistema acertou o diagnóstico esperado nas **10 frases**:
@@ -69,7 +72,13 @@ O sistema acertou o diagnóstico esperado nas **10 frases**:
 | 9 | há cinco dias | Trombose Venosa Profunda / Embolia Pulmonar | 6 |
 | 10 | há um mês | Endocardite Infecciosa | 10 |
 
-**Limitações:** a busca é por correspondência de texto, então sintomas escritos de um jeito muito diferente do mapa não são reconhecidos, e negações ("não sinto dor no peito") não são tratadas. Sintomas genéricos aparecem em várias doenças, por isso mostramos um ranking e não uma resposta única.
+**Limitações** (detalhadas no final do notebook):
+
+- **Generalização:** o mapa foi montado junto com as 10 frases, então acertar as 10 não mede generalização. Nos 8 relatos novos (outras palavras, gênero, número, verbo, negação e palavras intercaladas), o sistema acertou 7.
+- **Formas de escrever que o mapa não cobre:** a busca exige a expressão em sequência. "Braço ficou dormente" não casa com "braço dormente", e o relato de AVC ficou sem sugestão.
+- **Negação simples:** a janela olha só até 3 palavras antes do sintoma. Uma frase como "a dor no peito não voltou" ainda conta o sintoma.
+- **Sintomas genéricos:** "dor no peito", "febre" e "falta de ar" aparecem em várias doenças, por isso o resultado é um ranking, e não uma resposta única.
+- **Origem do mapa:** o mapa foi montado pelo grupo a partir de material de estudo, sem validação médica. O resultado é uma sugestão de apoio.
 
 ---
 
@@ -117,7 +126,7 @@ A análise completa está no final do notebook.
 **Projeto acadêmico** — FIAP · Método PBL (Project Based Learning).
 
 ## Equipe
-- Everton Marinho Souza (RM 566767)
+- Everton Marinho Souza (RM 568137)
 - Felipe de Souza Lourenço (RM 567521)
 - Matheus Ribeiro Martelletti (RM 566767)
 - Júlia Gutierres Fernandes Souza (RM 568296)
