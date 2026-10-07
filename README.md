@@ -1,28 +1,50 @@
-# CardioIA — Fase 1: Batimentos de Dados
+# CardioIA
 
-Repositório da Fase 1 do projeto CardioIA, cujo objetivo é levantar, organizar e documentar as três bases de dados fundamentais que alimentarão os módulos inteligentes das fases seguintes: dados numéricos (para modelos de risco), dados textuais (para NLP) e dados visuais (para Visão Computacional).
+Repositório do projeto acadêmico **CardioIA** (FIAP · Método PBL). Na raiz ficam este README e uma pasta por fase já entregue. O objetivo do projeto é o mesmo; o que muda é o conteúdo de cada pasta.
 
-Esta fase não treina modelos de IA. Ela constrói e documenta a fundação de dados — com atenção explícita à governança de dados e ao viés.
+**[`Fase 1/`](<Fase 1/>)** reúne a fundação de dados: dataset numérico, corpus textual, amostra de raio-X e a documentação de governança. Essa fase organiza e documenta as bases. Ela não treina modelos.
+
+**[`Fase 2/`](<Fase 2/>)** reúne o diagnóstico automatizado: extração de sintomas a partir de relatos e classificador de risco. Instruções, resultados e o vídeo ficam em [Fase 2/README.md](<Fase 2/README.md>).
 
 ## Estrutura do repositório
+
 ```text
-CardioIA_Fase1_Dados/
-├── README.md                 # este arquivo
-├── data/
-│   └── pacientes_cardiacos.csv # dataset numérico (1000 pacientes)
-├── docs/
-│   ├── dicionario_de_dados.md # descrição de cada variável
-│   └── textos/                # arquivos .txt para NLP (Parte 2)
-├── notebooks/
-│   └── gerar_dataset.py       # script reprodutível do dataset
-└── assets/                    # imagens de apoio / amostras (Parte 3)
+CardioIA/
+├── README.md                              # este arquivo — visão do projeto PBL
+├── Fase 1/                                # fundação de dados
+│   ├── data/
+│   │   └── pacientes_cardiacos.csv        # 1000 pacientes simulados
+│   ├── docs/
+│   │   ├── dicionario_de_dados.md
+│   │   └── textos/
+│   │       ├── baixar_textos.py
+│   │       ├── lettsomian_lectures_heart_diseases.txt
+│   │       └── fat_and_blood_mitchell.txt
+│   ├── notebooks/
+│   │   └── gerar_dataset.py               # geração reprodutível do dataset
+│   └── assets/
+│       └── imagens_raiox/                 # subconjunto de raio-X de tórax
+└── Fase 2/                                # diagnóstico automatizado
+    ├── README.md                          # instruções, resultados e vídeo
+    ├── parte1/                            # sintomas, mapa e diagnóstico
+    │   ├── frases_sintomas.txt
+    │   ├── mapa_conhecimento.csv
+    │   ├── diagnostico_sintomas.ipynb
+    │   └── resultado_diagnosticos.csv
+    └── parte2/                            # classificador de risco
+        ├── frases_risco.csv
+        └── classificador_risco.ipynb
 ```
+
+## Fase 1 — Batimentos de Dados
+
+Objetivo desta fase: deixar as três bases prontas, documentadas e reproduzíveis, para que os módulos das fases seguintes partam de dados com origem, limitações e vieses explícitos.
 
 ## Parte 1 — Dados Numéricos (IoT / dados tabulares)
 
-**Arquivo:** [data/pacientes_cardiacos.csv](data/pacientes_cardiacos.csv) — 1000 registros, 11 variáveis.
+**Arquivo:** [Fase 1/data/pacientes_cardiacos.csv](<Fase 1/data/pacientes_cardiacos.csv>) — 1000 registros, 11 variáveis.
 
-**Origem:** dados simulados (sintéticos), gerados pelo script [notebooks/gerar_dataset.py](notebooks/gerar_dataset.py) com semente fixa para reprodutibilidade. Optou-se por dados simulados porque dados clínicos reais são protegidos por questões éticas, legais e de privacidade — uma restrição comum e legítima em projetos de IA na saúde. O gerador embute correlações clinicamente plausíveis (idade, tabagismo e diabetes elevam a taxa de doença), o que torna a base útil para o aprendizado de padrões reais nas fases seguintes.
+**Origem:** dados simulados (sintéticos), gerados pelo script [Fase 1/notebooks/gerar_dataset.py](<Fase 1/notebooks/gerar_dataset.py>) com semente fixa para reprodutibilidade. Optou-se por dados simulados porque dados clínicos reais são protegidos por questões éticas, legais e de privacidade — uma restrição comum e legítima em projetos de IA na saúde. O gerador embute correlações clinicamente plausíveis (idade, tabagismo e diabetes elevam a taxa de doença), o que torna a base útil para o aprendizado de padrões reais nas fases seguintes.
 
 **Link público para o dataset completo:** [https://drive.google.com/drive/folders/1O_84GUkaW6_6iOFTlTy0y07eaLDM1v9s?usp=sharing](https://drive.google.com/drive/folders/1O_84GUkaW6_6iOFTlTy0y07eaLDM1v9s?usp=sharing) 
 
@@ -35,7 +57,7 @@ CardioIA_Fase1_Dados/
 - **tipo de dor torácica** — angina típica tem forte valor preditivo para doença coronariana.
 - **doença_cardiaca** — variável-alvo (rótulo) para os classificadores supervisionados da Fase 2.
 
-O detalhamento completo de cada coluna está em [docs/dicionario_de_dados.md](docs/dicionario_de_dados.md).
+O detalhamento completo de cada coluna está em [Fase 1/docs/dicionario_de_dados.md](<Fase 1/docs/dicionario_de_dados.md>).
 
 ### Governança e viés
 - **Reprodutibilidade:** semente fixa (SEED=42) garante que qualquer pessoa regenere o dataset idêntico.
@@ -45,7 +67,7 @@ O detalhamento completo de cada coluna está em [docs/dicionario_de_dados.md](do
 
 ## Parte 2 — Dados Textuais (NLP)
 
-**Arquivos:** dois textos em domínio público sobre saúde cardiovascular, na pasta [docs/textos/](docs/textos/):
+**Arquivos:** dois textos em domínio público sobre saúde cardiovascular, na pasta [Fase 1/docs/textos/](<Fase 1/docs/textos/>):
 - `lettsomian_lectures_heart_diseases.txt` — The Lettsomian Lectures on Diseases and Disorders of the Heart and Arteries in Middle and Advanced Age, de J. Mitchell Bruce. Tratado clínico sobre causas, sintomas, diagnóstico, prognóstico e tratamento de doenças cardiovasculares.
 - `fat_and_blood_mitchell.txt` — Fat and Blood, de S. Weir Mitchell. Aborda doença cardíaca, compensação, sintomas e abordagens de tratamento e recuperação.
 
@@ -68,7 +90,7 @@ Grande parte da informação clínica vive em texto não estruturado (prontuári
 
 **Exame escolhido:** raio-X de tórax com foco em cardiomegalia (aumento da área cardíaca) — o raio-X de tórax é o principal método de imagem para identificar o coração aumentado, o que o torna um exame genuinamente cardiológico.
 
-**Fonte:** conjunto de 100+ imagens (.jpg/.png) extraídas do NIH Chest X-ray Dataset, base pública e desidentificada com 112.120 radiografias rotuladas em 14 categorias de achados, entre elas Cardiomegaly.
+**Fonte:** conjunto de 100+ imagens (.jpg/.png) extraídas do NIH Chest X-ray Dataset, base pública e desidentificada com 112.120 radiografias rotuladas em 14 categorias de achados, entre elas Cardiomegaly. A amostra usada no projeto está em [Fase 1/assets/imagens_raiox/](<Fase 1/assets/imagens_raiox/>).
 - Dataset completo: https://www.kaggle.com/datasets/nih-chest-xrays/data
 - Amostra reduzida (mais leve para download): https://www.kaggle.com/datasets/nih-chest-xrays/sample
 - Versão redimensionada 224×224: https://www.kaggle.com/datasets/khanfashee/nih-chest-x-ray-14-224x224-resized
@@ -88,21 +110,37 @@ O raio-X de tórax é um dos exames mais frequentes e de baixo custo, mas sua le
 - **Rótulos imperfeitos:** os rótulos foram extraídos por NLP dos laudos, com acurácia estimada acima de 90% — ou seja, contêm ruído, o que deve ser considerado.
 - **Classes desbalanceadas:** a cardiomegalia representa uma fração pequena do total de imagens; ao montar o subconjunto, é importante balancear casos positivos e negativos para não enviesar o modelo.
 
-## Fase 2 — Diagnóstico Automatizado
-
-Os arquivos da Fase 2 (extração de sintomas com mapa de conhecimento e classificador de risco com TF-IDF) estão na pasta [fase2/](fase2/). Instruções, resultados e o link do vídeo estão em [fase2/README.md](fase2/README.md).
-
 ## Como regerar o dataset numérico
+
+O script abaixo recria o CSV da Fase 1 com a mesma semente usada na entrega:
+
 ```bash
 pip install numpy pandas
-python notebooks/gerar_dataset.py
+python "Fase 1/notebooks/gerar_dataset.py"
+```
+
+## Fase 2 — Diagnóstico Automatizado
+
+Tudo desta fase está em [`Fase 2/`](<Fase 2/>). Aqui o CardioIA deixa de apenas organizar dados e passa a interpretar o que um paciente escreve.
+
+São duas partes, com execução, tabelas e análise de limitações em [Fase 2/README.md](<Fase 2/README.md>):
+
+1. **Extração de sintomas e sugestão de diagnóstico** ([Fase 2/parte1/](<Fase 2/parte1/>)). O notebook lê relatos em português, reduz as palavras ao radical com o estemizador RSLP, descarta sintomas negados e cruza o que restou com um mapa de conhecimento (sintoma → doença). A doença com mais pontos é a sugestão principal. Os relatos de teste, o resultado e as limitações (generalização, sintomas genéricos, formas de escrever que o mapa não cobre) estão no notebook e no CSV de saída.
+2. **Classificador de risco** ([Fase 2/parte2/](<Fase 2/parte2/>)). Um modelo de Machine Learning (TF-IDF com unigramas e bigramas, Regressão Logística e Árvore de Decisão) classifica a frase como **alto risco** ou **baixo risco**, no papel de uma triagem. A base é simulada e balanceada; o README da fase registra acurácia, falsos negativos e os vieses observados (estilo de escrita, negação, termos técnicos fora do vocabulário).
+
+Os dois módulos usam somente dados simulados, definidos pelo grupo, e funcionam como apoio. Eles não substituem a avaliação de um profissional de saúde.
+
+Para rodar, instale as dependências e abra cada notebook a partir da pasta da parte correspondente — os arquivos são lidos por caminho relativo:
+
+```bash
+pip install pandas scikit-learn matplotlib jupyter nltk
 ```
 
 ---
 **Projeto acadêmico** — FIAP · Método PBL (Project Based Learning).
 
 ## Equipe
-- Everton Marinho Souza (RM 566767)
+- Everton Marinho Souza (RM 568137)
 - Felipe de Souza Lourenço (RM 567521)
 - Matheus Ribeiro Martelletti (RM 566767)
 - Júlia Gutierres Fernandes Souza (RM 568296)

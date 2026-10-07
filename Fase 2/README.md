@@ -12,7 +12,7 @@ Nesta fase o CardioIA ganha um módulo que lê relatos de pacientes e ajuda no d
 ## Estrutura
 
 ```text
-fase2/
+Fase 2/
 ├── README.md
 ├── parte1/
 │   ├── frases_sintomas.txt          # 10 relatos de pacientes

@@ -2,7 +2,7 @@
 CardioIA - Fase 1, Parte 2 (NLP): download dos textos em dominio publico.
 
 Baixa dois textos do Projeto Gutenberg sobre saude cardiovascular e os salva
-nesta mesma pasta (docs/textos/) com nomes padronizados.
+nesta mesma pasta (Fase 1/docs/textos/) com nomes padronizados.
 
 Uso:
     python baixar_textos.py
@@ -38,4 +38,4 @@ def baixar():
 
 if __name__ == "__main__":
     baixar()
-    print("\nConcluido. Verifique os arquivos em docs/textos/.")
+    print("\nConcluido. Verifique os arquivos em Fase 1/docs/textos/.")

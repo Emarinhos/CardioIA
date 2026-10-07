@@ -21,7 +21,7 @@ Total: **1000 registros**, **11 colunas**. Nenhum dado pertence a paciente real.
 
 ## Notas de governança
 
-- **Origem:** dados 100% sintéticos, gerados por `notebooks/gerar_dataset.py` com semente fixa (`SEED=42`), garantindo reprodutibilidade.
+- **Origem:** dados 100% sintéticos, gerados por `Fase 1/notebooks/gerar_dataset.py` com semente fixa (`SEED=42`), garantindo reprodutibilidade.
 - **Ausentes intencionais:** ~1,5% de valores faltantes em `colesterol_total_mgdl`, para exercitar tratamento de dados nas fases seguintes.
 - **Correlações embutidas:** a variável-alvo foi derivada de um modelo logístico sobre os fatores de risco, produzindo relações clinicamente plausíveis (idade, tabagismo e diabetes elevam a taxa de doença).
 - **Prevalência:** ~40%, dentro de faixa realista para coortes cardiológicas — evitando o viés de classes desbalanceadas.
