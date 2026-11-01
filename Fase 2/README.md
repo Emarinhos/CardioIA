@@ -34,9 +34,13 @@ pip install pandas scikit-learn matplotlib jupyter nltk
 
 Abra os notebooks pelo Jupyter ou VS Code **a partir da pasta de cada parte**, já que os arquivos são lidos por caminho relativo, e execute todas as células.
 
+## Modelos
+
+**Parte 1 — extração de sintomas (regras).** NLP simbólico, escolhido para que a sugestão mostre quais sintomas levaram a cada doença. O estemizador **RSLP** reduz a palavra ao radical antes de tirar os acentos. A busca compara radicais por palavra inteira. Sintomas negados nas três palavras anteriores (`não`, `nunca`, `nem`) são descartados. Cada sintoma encontrado soma 1 ponto para a doença ligada a ele no mapa de conhecimento. Se os dois sintomas da mesma linha aparecem juntos, a doença ganha 1 ponto extra. A doença com mais pontos é a sugestão principal. Uma expressão regular extrai também quando os sintomas começaram.
+
+**Parte 2 — classificador de risco (aprendizado supervisionado).** A base tem 160 frases simuladas e balanceadas (80 de alto risco e 80 de baixo risco). O texto vira número com **TF-IDF** de unigramas e bigramas, sem remover stopwords, para conservar palavras como "não", "leve" e "pouco". A divisão é estratificada, 75% treino e 25% teste. Dois modelos são treinados e comparados: **Regressão Logística** e **Árvore de Decisão**. A avaliação usa acurácia, precision, recall, matriz de confusão e validação cruzada com 5 folds.
+
 ---
-
-
 
 ## Parte 1 — Frases de sintomas e mapa de conhecimento
 
@@ -139,9 +143,15 @@ São 160 frases no formato `frase,situacao`, **balanceadas** (80 de alto risco e
 
 A análise completa está no final do notebook.
 
+## Interpretação dos resultados
+
+**Parte 1.** Nas 10 frases usadas para montar o mapa, a sugestão principal coincidiu com o diagnóstico esperado. Isso mostra que as regras e o mapa cobrem esses relatos. Acertar as 10 não mede generalização, porque o mapa foi escrito junto com elas. Em 8 relatos novos, com outras palavras, o sistema acertou 7. O erro restante veio de uma expressão fora de sequência ("braço ficou dormente" não casa com "braço dormente"). Sintomas genéricos, como "dor no peito" e "falta de ar", aparecem em várias doenças, por isso a saída é um ranking. A negação só olha três palavras antes do sintoma: "a dor no peito não voltou" ainda conta o sintoma. O mapa foi montado pelo grupo, sem validação médica. O número de pontos indica quantos sintomas do mapa foram encontrados. Ele mede o encaixe com o mapa, e não a probabilidade clínica da doença.
+
+**Parte 2.** No conjunto de teste (40 frases), a Regressão Logística ficou à frente da Árvore de Decisão: 87,5% de acurácia no teste e 88,1% na validação cruzada, contra 80,0% e 75,6%. A validação cruzada próxima da acurácia de teste indica que o resultado da logística não dependeu de uma única divisão. O erro que importa na triagem é o **falso negativo**: frase de alto risco classificada como baixo risco. Três casos em vinte, na logística, significam que um relato grave ainda pode ir para o fim da fila. A acurácia sozinha esconde esse custo.
+
+Os pesos do TF-IDF mostram que o modelo aprende o jeito de escrever da base: "pouco", "leve" e "depois" puxam para baixo risco, e "muito" e "forte" para alto risco. A frase "não sinto dor no peito nem falta de ar" foi classificada como alto risco (74%), porque a negação não é entendida de fato. Termos técnicos ausentes da base, como "dispneia" e "taquicardia", deixam o modelo perto de 50%. A árvore chegou à profundidade 12 nas 120 frases de treino, sinal de overfitting, coerente com a queda na validação cruzada (75,6%). A base é pequena, foi escrita pelo grupo e não traz idade, sexo nem histórico. Por isso o percentual descreve o comportamento neste conjunto simulado, e não um desempenho clínico.
+
 ---
-
-
 
 ## Governança e uso responsável
 

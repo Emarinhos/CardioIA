@@ -2,6 +2,14 @@
 
 Objetivo desta fase: deixar as três bases prontas, documentadas e reproduzíveis, para que os módulos das fases seguintes partam de dados com origem, limitações e vieses explícitos. Esta fase organiza e documenta as bases. Ela não treina modelos.
 
+## Modelos
+
+Esta fase não treina modelo. O trabalho é deixar as bases numérica, textual e visual documentadas, com origem, limitações e vieses explícitos, para que os classificadores das fases seguintes partam desses dados.
+
+## Interpretação dos resultados
+
+Não há métrica de classificador nesta fase. O resultado é a base pronta para as etapas seguintes: 1000 pacientes simulados com semente fixa, dois textos de domínio público e o subconjunto de raio-X de tórax, cada um com origem e limites registrados abaixo.
+
 ## Estrutura
 
 ```text
