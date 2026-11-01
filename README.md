@@ -29,9 +29,9 @@
 
 O **CardioIA** é um projeto acadêmico do curso de **Inteligência Artificial (FIAP)** com foco em **cardiologia**. Doenças cardiovasculares são a principal causa de mortes no mundo, com cerca de 17,9 milhões de óbitos anuais. Infartos, arritmias, insuficiência cardíaca e AVCs são frequentes e, em muitos casos, podem ser prevenidos com diagnóstico precoce. A proposta é uma plataforma digital de apoio à decisão que simula um ecossistema de cardiologia moderna: organizar dados clínicos, ler relatos de pacientes, monitorar sinais, interpretar exames de imagem, acompanhar o paciente em casa e antecipar picos de risco.
 
-O repositório reúne o trabalho do grupo em **sete fases** sequenciais. As **Fases 1 e 2** já estão entregues. A Fase 1 constrói a base (dados numéricos simulados, corpus textual em domínio público e amostra de raio-X), com origem, limitações e governança explícitas. A Fase 2 lê relatos em português: um módulo de regras sugere um diagnóstico a partir dos sintomas, e classificadores supervisionados (TF-IDF com Regressão Logística e Árvore de Decisão) separam a frase em **alto risco** ou **baixo risco**. Os módulos sugerem e priorizam. Funcionam como apoio à avaliação de um profissional de saúde.
+O repositório reúne o trabalho do grupo em **sete fases** sequenciais. As **Fases 1 e 2** já estão entregues, e a **Fase 3** tem a Parte 1 pronta. A Fase 1 constrói a base (dados numéricos simulados, corpus textual em domínio público e amostra de raio-X), com origem, limitações e governança explícitas. A Fase 2 lê relatos em português: um módulo de regras sugere um diagnóstico a partir dos sintomas, e classificadores supervisionados (TF-IDF com Regressão Logística e Árvore de Decisão) separam a frase em **alto risco** ou **baixo risco**. A Fase 3 leva o monitoramento para um vestível simulado no **Wokwi**: um **ESP32** lê temperatura e umidade no **DHT22**, estima os batimentos por um botão e trata uma chave como Wi-Fi. Sem rede, as amostras entram numa fila de cerca de **30 minutos**; quando a rede volta, o lote é reenviado pelo monitor serial. Os módulos sugerem e priorizam. Funcionam como apoio à avaliação de um profissional de saúde.
 
-Em termos técnicos, o material entregue até aqui usa **Python**, **pandas**, **NLTK** (estemizador RSLP) e **scikit-learn**. As fases seguintes preveem IoT com ESP32, visão computacional, chatbot, séries temporais e a integração da plataforma.
+Em termos técnicos, o material entregue até aqui usa **Python**, **pandas**, **NLTK** (estemizador RSLP) e **scikit-learn** nas Fases 1 e 2, e **C++ para Arduino** com **PlatformIO** e **Wokwi** na Fase 3. As fases seguintes preveem a transmissão por MQTT com dashboard, visão computacional, chatbot, séries temporais e a integração da plataforma.
 
 ---
 
@@ -63,6 +63,15 @@ CardioIA/
 │   │   └── classificador_risco.ipynb
 │   └── README.md
 │
+├── Fase 3/                              # Monitoramento contínuo (IoT)
+│   ├── parte1/                          # vestível ESP32 no Wokwi
+│   │   ├── diagram.json                 # ESP32, DHT22, botão e chave
+│   │   ├── sketch.ino                   # firmware da pulseira
+│   │   ├── platformio.ini
+│   │   ├── wokwi.toml
+│   │   └── relatorio.md                 # fluxo e lógica de resiliência
+│   └── README.md
+│
 ├── requirements.txt                     # dependências para reproduzir os experimentos
 └── README.md                            # este arquivo
 ```
@@ -71,13 +80,13 @@ CardioIA/
 
 ## Fases do projeto
 
-Cada fase entregue tem **README próprio** com dados, modelos, interpretação dos resultados e limitações. Instalação e execução ficam neste arquivo. As fases 3 a 7 constam do plano do projeto e ainda serão entregues.
+Cada fase entregue tem **README próprio** com dados, modelos, interpretação dos resultados e limitações. Instalação e execução ficam neste arquivo. A Fase 3 tem a Parte 1 entregue e a Parte 2 em andamento. As fases 4 a 7 constam do plano do projeto e ainda serão entregues.
 
 | Fase | Tema (resumo) | README |
 |------|----------------|--------|
 | **1** | Batimentos de Dados — Mapeando o Coração Moderno: base de pacientes cardiológicos, fontes públicas e simuladas, governança dos dados | [Fase 1/README.md](<Fase 1/README.md>) |
 | **2** | Diagnóstico Automatizado — IA no Estetoscópio Digital: extração de sintomas e classificadores supervisionados de risco | [Fase 2/README.md](<Fase 2/README.md>) · [▶ Vídeo](https://www.youtube.com/watch?v=78A2zGsYbNo) |
-| **3** | Monitoramento Contínuo — IoT no Peito do Paciente: wearable com ESP32 e dashboard de sinais em tempo real | A entregar |
+| **3** | Monitoramento Contínuo — IoT no Peito do Paciente: vestível ESP32 no Wokwi com DHT22, botão de batimento e fila offline de 30 minutos (Parte 1); MQTT e dashboard Node-RED (Parte 2, em andamento) | [Fase 3/README.md](<Fase 3/README.md>) · [▶ Wokwi](https://wokwi.com/projects/479509150096391169) |
 | **4** | Coração em Imagens — Diagnóstico com Visão Computacional: interpretar exames e destacar alterações suspeitas | A entregar |
 | **5** | Suporte Digital ao Paciente — Assistente Cardiológico Virtual: chatbot de acompanhamento, com NLP, ética e empatia | A entregar |
 | **6** | Coração Sob Controle — Previsão de Crises com IA: séries temporais para picos de risco e protocolos de emergência | A entregar |
@@ -126,7 +135,9 @@ jupyter notebook "Fase 2/parte2/classificador_risco.ipynb"
 
 Se o notebook for aberto pelo Jupyter a partir da raiz, o diretório de trabalho pode deixar de ser a pasta da parte e a leitura dos CSVs falha. Nesse caso, execute o notebook pelo VS Code ou pelo Jupyter com o diretório de trabalho em `Fase 2/parte1` ou `Fase 2/parte2`.
 
-Modelos e interpretação dos resultados estão no README de cada fase: [Fase 1](<Fase 1/README.md>) e [Fase 2](<Fase 2/README.md>).
+**Fase 3 — vestível no Wokwi.** Abra o [projeto no Wokwi](https://wokwi.com/projects/479509150096391169) e rode a simulação. A chave liga e desliga o Wi-Fi, e o monitor serial mostra as leituras e o lote reenviado. Para compilar localmente, use `pio run` dentro de `Fase 3/parte1`, com a extensão PlatformIO.
+
+Modelos e interpretação dos resultados estão no README de cada fase: [Fase 1](<Fase 1/README.md>), [Fase 2](<Fase 2/README.md>) e [Fase 3](<Fase 3/README.md>).
 
 ---
 
