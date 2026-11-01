@@ -6,6 +6,26 @@ No boot, o sistema lê a chave e informa se a rede está conectada ou desconecta
 
 O conjunto mostra computação na borda e resiliência offline numa aplicação de saúde. O monitor serial faz o papel do envio, porque o simulador não reproduz o armazenamento local como no hardware.
 
+## Fluxo de funcionamento no dia a dia
+
+O paciente coloca a pulseira e a liga. A partir desse momento ela já mede temperatura, umidade e batimentos, sem que ele precise fazer mais nada. A pulseira roda com bateria, e a economia de energia está descrita mais adiante. Ao longo do dia, as medidas formam o histórico que a equipe médica avalia a cada hora para tomar decisões e fechar diagnósticos. No boot, a pulseira procura o Wi-Fi. Se encontra a rede, lê os sensores e sincroniza a medida na hora. Se não encontra, a leitura continua e a amostra vai para a fila, que descarrega quando a rede volta.
+
+```mermaid
+flowchart TD
+    A[Paciente liga a pulseira] --> B[Boot]
+    B --> C{Wi-Fi disponível?}
+    C -- Sim --> K{Há amostras na fila?}
+    K -- Sim --> I[Envia a fila em ordem]
+    K -- Não --> D[Lê os sensores]
+    I --> D
+    D --> E[Sincroniza a medida]
+    C -- Não --> F[Lê os sensores]
+    F --> G[Guarda na fila]
+    E --> J[Próximo ciclo, 5 s]
+    G --> J
+    J --> C
+```
+
 ## Arquitetura do Circuito
 
 O ESP32 é o núcleo da pulseira. Ele executa todo o firmware, dispara as leituras e concentra a lógica de Wi-Fi: decide se a medida segue na hora ou entra na fila, conforme o estado da chave.
