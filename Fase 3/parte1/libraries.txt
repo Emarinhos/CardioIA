@@ -1,0 +1,8 @@
+# Bibliotecas usadas pelo compilador do Wokwi. O PlatformIO continua em platformio.ini.
+# Headers do core (esp_sleep.h, driver/rtc_io.h) nao entram aqui.
+DHT sensor library
+# Arduino Library Manager: "DHT sensor library" (Adafruit)
+# GitHub: https://github.com/adafruit/DHT-sensor-library
+Adafruit Unified Sensor
+# Dependencia da DHT. Arduino Library Manager: "Adafruit Unified Sensor"
+# GitHub: https://github.com/adafruit/Adafruit_Sensor
