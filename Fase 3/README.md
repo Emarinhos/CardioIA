@@ -3,36 +3,49 @@
 Nesta fase o CardioIA passa a acompanhar sinais no próprio dispositivo. São duas partes:
 
 1. **Armazenamento e processamento local:** pulseira simulada no Wokwi com ESP32. Lê temperatura e umidade, estima a frequência cardíaca e guarda as amostras quando a rede cai.
-2. **Transmissão para a nuvem e visualização:** envio por MQTT e dashboard em tempo real. Essa parte ainda não está na pasta.
+2. **Transmissão para a nuvem e visualização:** o mesmo vestível publica as medidas por MQTT no HiveMQ e o Node-RED monta o painel em tempo real, com gráfico, medidor e alerta.
 
 ## Projeto no Wokwi
 
 **Parte 1:** [https://wokwi.com/projects/479509150096391169](https://wokwi.com/projects/479509150096391169)
+
+**Parte 2:** [https://wokwi.com/projects/479583124125573121](https://wokwi.com/projects/479583124125573121)
 
 ## Estrutura
 
 ```text
 Fase 3/
 ├── README.md
-└── parte1/
-    ├── diagram.json       # ESP32, DHT22, botão e chave
-    ├── sketch.ino         # firmware da pulseira
+├── parte1/
+│   ├── diagram.json       # ESP32, DHT22, botão e chave
+│   ├── sketch.ino         # firmware com fila e serial
+│   ├── platformio.ini
+│   ├── wokwi.toml
+│   └── relatorio.md       # fluxo e lógica de resiliência
+└── parte2/
+    ├── diagram.json
+    ├── sketch.ino         # Wi-Fi real, MQTT e fila
     ├── platformio.ini
     ├── wokwi.toml
-    └── relatorio.md       # fluxo e lógica de resiliência
+    ├── libraries.txt
+    ├── Fluxo_Node_Red.json
+    ├── prints/            # serial, editor e dashboard
+    └── relatorio.md
 ```
 
 ## Como executar
 
-Abra o [projeto no Wokwi](https://wokwi.com/projects/479509150096391169) e rode a simulação. A chave liga e desliga o Wi-Fi. O monitor serial mostra cada leitura e o lote guardado quando a rede volta.
+**Parte 1.** Abra o [projeto no Wokwi](https://wokwi.com/projects/479509150096391169) e rode a simulação. A chave liga e desliga o Wi-Fi. O monitor serial mostra cada leitura e o lote guardado quando a rede volta.
 
-Para compilar na pasta da parte, com a extensão PlatformIO:
+**Parte 2.** Compile na pasta da parte, com a extensão PlatformIO:
 
 ```bash
 pio run
 ```
 
-O `wokwi.toml` aponta o firmware gerado em `.pio/build/esp32/` para o simulador no editor.
+Abra o [projeto da Parte 2 no Wokwi](https://wokwi.com/projects/479583124125573121) (ou o `diagram.json` local com a extensão). A chave corta Wi-Fi e MQTT de verdade. Importe [parte2/Fluxo_Node_Red.json](parte2/Fluxo_Node_Red.json) no Node-RED, com os módulos `node-red-dashboard` e `node-red-contrib-ui-led`. O painel assina o broker público da HiveMQ.
+
+O `wokwi.toml` de cada parte aponta o firmware gerado em `.pio/build/esp32/` para o simulador no editor.
 
 ## Modelos
 
@@ -40,7 +53,7 @@ Esta fase não treina modelo. O processamento fica no ESP32.
 
 **Parte 1 — borda.** A cada 5 segundos o firmware lê o DHT22 e a frequência cardíaca. O botão não é um eletrodo: cada aperto entra numa janela de até cinco intervalos, só entre 30 e 220 bpm. Fora dessa faixa a leitura fica inválida. Sem aperto por 3 segundos, a conta volta a zero. A chave é o Wi-Fi, com espera de 100 ms antes de aceitar a troca. Conectado, a amostra sai na hora no monitor serial. Desconectado, entra numa fila em RAM de 360 registros. Se a fila enche, a amostra mais antiga sai. Na reconexão, o lote é impresso em ordem e a fila é esvaziada.
 
-**Parte 2 — nuvem.** O enunciado pede MQTT (por exemplo HiveMQ Cloud) e um dashboard no Node-RED, com gráfico, medidor e alerta. Esse fluxo ainda não está implementado nesta pasta.
+**Parte 2 — nuvem.** A leitura e a fila continuam. Online, o ESP32 publica um JSON a cada 5 segundos no tópico `cardioia/566767/esp32/sensores`, no broker `broker.hivemq.com`, porta 8883 com TLS. O estado da pulseira vai em `cardioia/pulseira/status`, com mensagem retida (`online` / `offline`). Cada amostra guarda se o relógio já estava sincronizado no momento da leitura. Se a medida foi feita antes do primeiro NTP, o campo `data_hora` e o serial saem como `sem-relogio`, também quando essa amostra é enviada da fila depois da sincronização. O Node-RED monta o painel: gráfico e medidor de temperatura e de BPM, LED de alerta acima de 38 °C e de 120 bpm, e indicador Online/Offline. Grafana Cloud ficou de fora de propósito: o painel do Node-RED já cobre o pedido do enunciado.
 
 ---
 
@@ -66,20 +79,34 @@ O circuito está em [parte1/diagram.json](parte1/diagram.json) e o firmware em [
 
 ## Parte 2 — Transmissão para a nuvem e visualização
 
-O enunciado pede um ESP32 enviando os sinais por MQTT, um dashboard no Node-RED com gráfico de um sinal vital, medidor de outro parâmetro e alerta quando os limites do grupo forem ultrapassados (por exemplo, frequência acima de 120 bpm ou temperatura acima de 38 °C). Grafana Cloud é opcional. Código, prints e relatório dessa parte ainda não estão no repositório.
+O firmware está em [parte2/sketch.ino](parte2/sketch.ino), o fluxo em [parte2/Fluxo_Node_Red.json](parte2/Fluxo_Node_Red.json) e o relato em [parte2/relatorio.md](parte2/relatorio.md). As evidências do painel e do serial ficam em [parte2/prints/](parte2/prints/).
 
-## Interpretação dos resultados
+**Envio.** Com a chave ligada, o ESP32 associa na rede `Wokwi-GUEST` e publica no HiveMQ. Sem rede, a amostra entra na fila de 360. Na reconexão, o lote sai da mais antiga para a mais nova, com `"offline": true`. A temperatura lida passa por um limite de 0 °C a 50 °C antes de entrar na amostra; valor abaixo de zero vira 0 e acima de 50 vira 50. Se o sensor devolver NaN, o JSON sai com `null`.
 
-**Parte 1.** O protótipo mostra a decisão na borda: o dispositivo lê, guarda e só descarrega quando a chave indica rede. A fila de 360 amostras é uma escolha de projeto para falhas curtas, não o teto do ESP32. Os 360 registros ocupam pouco da RAM do chip. Perder a simulação apaga a fila, porque ela não está em arquivo. O botão aproxima o ritmo. Ele não mede pulso. O serial confirma o desenho da resiliência. Ele não é um broker na nuvem.
+**Status e testamento MQTT.** No `connect`, o cliente registra um LWT (last will): se a sessão cair sem aviso, o broker publica `offline` em `cardioia/pulseira/status`. Ao conectar, o firmware publica `online` com retain. Quando a chave desliga a rede, `cortarRede` publica `offline` antes do disconnect e só então corta o Wi-Fi.
 
-**Parte 2.** Ainda não há métrica nem tela para interpretar.
+**JSON no tópico dos sensores.** Cada publicação leva sete campos:
 
----
+- `temperatura` — DHT22 em °C (uma casa decimal), já limitada a 0–50; `null` se a leitura falhar
+- `umidade` — DHT22 em % (uma casa decimal); `null` se a leitura falhar
+- `bpm` — frequência estimada pelo botão (`0` se ainda não há intervalo)
+- `bpm_invalido` — `true` se o BPM ficou fora da faixa 30–220
+- `instante_ms` — `millis()` no momento da leitura
+- `offline` — `true` se a amostra veio da fila; `false` se foi ao vivo
+- `data_hora` — ISO 8601 com fuso `-03:00`, ou a string `sem-relogio`
+
+O campo interno `comRelogio` não entra no JSON. Ele só marca se o NTP já estava pronto na leitura e decide o valor de `data_hora`: data formatada ou `sem-relogio`.
+
+**Limitações conhecidas do envio.** O `PubSubClient` publica em QoS 0. Quando `publish()` retorna `true`, isso confirma só a gravação no buffer TCP, não a recepção no broker. Por isso a fila não pode garantir que “só sai o que o broker aceitou”. O TLS usa `setInsecure()`: a conexão é criptografada, mas o certificado do broker não é validado. Em produção, o certo seria carregar a CA do HiveMQ.
+
+**Dashboard.** Dois grupos lado a lado (Temperatura e BPM) e um grupo Status. Cada grupo tem medidor com faixa de cor, gráfico de linha e LED de alerta. O eixo do gráfico usa a hora da medição (`data_hora` ou, se for `sem-relogio`, o `instante_ms`).
+
+**Limites do grupo.** Temperatura acima de 38 °C e BPM acima de 120 acendem o LED vermelho. O status Online/Offline acompanha o tópico retido da pulseira (LWT e publicação explícita no corte da chave).
 
 ## Governança e uso responsável
 
 - O vestível é simulado. Nenhum sinal veio de um paciente.
-- O botão substitui um sensor de pulso. A chave substitui a conexão Wi-Fi.
+- O botão substitui um sensor de pulso. Na Parte 1 a chave só simula a conexão; na Parte 2 ela corta Wi-Fi e MQTT de verdade.
 - A fila em RAM se perde ao encerrar a simulação. SPIFFS e cartão microSD ficam para um ESP32 físico.
 - O módulo é apoio de monitoramento. Ele não fecha diagnóstico nem dispara conduta clínica.
 

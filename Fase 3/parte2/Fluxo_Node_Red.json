@@ -1,0 +1,582 @@
+[
+    {
+        "id": "7d65e81e9d19f280",
+        "type": "tab",
+        "label": "Fluxo 1",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "e3a872b20aaef241",
+        "type": "mqtt in",
+        "z": "7d65e81e9d19f280",
+        "name": "",
+        "topic": "cardioia/566767/esp32/sensores",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "a54a037cfc73d5d4",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 270,
+        "y": 320,
+        "wires": [
+            [
+                "b0cfd492aac3a20e",
+                "825117469e3e1bf0",
+                "06699d7ed0a4c4f6"
+            ]
+        ]
+    },
+    {
+        "id": "b0cfd492aac3a20e",
+        "type": "debug",
+        "z": "7d65e81e9d19f280",
+        "name": "debug 1",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 620,
+        "y": 740,
+        "wires": []
+    },
+    {
+        "id": "b04a24dffa7dc7a7",
+        "type": "ui_gauge",
+        "z": "7d65e81e9d19f280",
+        "name": "",
+        "group": "acb26d0a235df501",
+        "order": 3,
+        "width": "6",
+        "height": "4",
+        "gtype": "gage",
+        "title": "Temperatura Atual",
+        "label": "°C",
+        "format": "{{value}}",
+        "min": 0,
+        "max": "50",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "37",
+        "seg2": "38",
+        "diff": false,
+        "className": "",
+        "x": 1130,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "825117469e3e1bf0",
+        "type": "change",
+        "z": "7d65e81e9d19f280",
+        "name": "Temperatura",
+        "rules": [
+            {
+                "t": "set",
+                "p": "data_hora",
+                "pt": "msg",
+                "to": "payload.data_hora",
+                "tot": "msg"
+            },
+            {
+                "t": "move",
+                "p": "payload.instante_ms",
+                "pt": "msg",
+                "to": "timestamp",
+                "tot": "msg"
+            },
+            {
+                "t": "move",
+                "p": "msg.payload.temperatura",
+                "pt": "msg",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 630,
+        "y": 320,
+        "wires": [
+            [
+                "b04a24dffa7dc7a7",
+                "c4a1e8b27d0f4a31",
+                "013ea954bbcb15ef"
+            ]
+        ]
+    },
+    {
+        "id": "06699d7ed0a4c4f6",
+        "type": "change",
+        "z": "7d65e81e9d19f280",
+        "name": "BPM",
+        "rules": [
+            {
+                "t": "set",
+                "p": "data_hora",
+                "pt": "msg",
+                "to": "payload.data_hora",
+                "tot": "msg"
+            },
+            {
+                "t": "move",
+                "p": "payload.instante_ms",
+                "pt": "msg",
+                "to": "timestamp",
+                "tot": "msg"
+            },
+            {
+                "t": "move",
+                "p": "msg.payload.bpm",
+                "pt": "msg",
+                "to": "msg.payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 610,
+        "y": 520,
+        "wires": [
+            [
+                "5afb22939f2bbba7",
+                "d5b2f9c38e104b42",
+                "c24f3b3e08e2f763"
+            ]
+        ]
+    },
+    {
+        "id": "5afb22939f2bbba7",
+        "type": "ui_gauge",
+        "z": "7d65e81e9d19f280",
+        "name": "",
+        "group": "bd46d747ae0d4724",
+        "order": 3,
+        "width": "6",
+        "height": "4",
+        "gtype": "gage",
+        "title": "BPM Atual",
+        "label": "BPM",
+        "format": "{{value}}",
+        "min": 0,
+        "max": "200",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "100",
+        "seg2": "120",
+        "diff": false,
+        "className": "",
+        "x": 1110,
+        "y": 520,
+        "wires": []
+    },
+    {
+        "id": "8247846d19a524fe",
+        "type": "ui_chart",
+        "z": "7d65e81e9d19f280",
+        "name": "",
+        "group": "bd46d747ae0d4724",
+        "order": 4,
+        "width": "8",
+        "height": "4",
+        "label": "BPM Historico",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 1120,
+        "y": 580,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "66a0e114bea71d93",
+        "type": "ui_chart",
+        "z": "7d65e81e9d19f280",
+        "name": "",
+        "group": "acb26d0a235df501",
+        "order": 4,
+        "width": "8",
+        "height": "4",
+        "label": "Temperatura Historico",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 1140,
+        "y": 380,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "74e3b13e7c364e93",
+        "type": "ui_led",
+        "z": "7d65e81e9d19f280",
+        "order": 1,
+        "group": "acb26d0a235df501",
+        "width": "8",
+        "height": "1",
+        "label": "Alerta Temperatura ( >38°C)",
+        "labelPlacement": "left",
+        "labelAlignment": "left",
+        "colorForValue": [
+            {
+                "color": "#ff0000",
+                "value": "true",
+                "valueType": "bool"
+            },
+            {
+                "color": "#008000",
+                "value": "false",
+                "valueType": "bool"
+            }
+        ],
+        "allowColorForValueInMessage": false,
+        "shape": "circle",
+        "showGlow": true,
+        "name": "Led_Temp",
+        "x": 1110,
+        "y": 440,
+        "wires": []
+    },
+    {
+        "id": "da5d16b85e2dc86d",
+        "type": "ui_led",
+        "z": "7d65e81e9d19f280",
+        "order": 1,
+        "group": "bd46d747ae0d4724",
+        "width": "8",
+        "height": "1",
+        "label": "Alerta BPM  ( >120 bmp)",
+        "labelPlacement": "left",
+        "labelAlignment": "left",
+        "colorForValue": [
+            {
+                "color": "#ff0000",
+                "value": "true",
+                "valueType": "bool"
+            },
+            {
+                "color": "#008000",
+                "value": "false",
+                "valueType": "bool"
+            }
+        ],
+        "allowColorForValueInMessage": false,
+        "shape": "circle",
+        "showGlow": true,
+        "name": "Led_BPM",
+        "x": 1100,
+        "y": 640,
+        "wires": []
+    },
+    {
+        "id": "013ea954bbcb15ef",
+        "type": "change",
+        "z": "7d65e81e9d19f280",
+        "name": "Max_Temperatura",
+        "rules": [
+            {
+                "t": "set",
+                "p": "msg.payload",
+                "pt": "msg",
+                "to": "payload>38",
+                "tot": "jsonata"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 650,
+        "y": 440,
+        "wires": [
+            [
+                "74e3b13e7c364e93"
+            ]
+        ]
+    },
+    {
+        "id": "c24f3b3e08e2f763",
+        "type": "change",
+        "z": "7d65e81e9d19f280",
+        "name": "Max_BPM",
+        "rules": [
+            {
+                "t": "set",
+                "p": "msg.payload",
+                "pt": "msg",
+                "to": "payload>120",
+                "tot": "jsonata"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 630,
+        "y": 640,
+        "wires": [
+            [
+                "da5d16b85e2dc86d"
+            ]
+        ]
+    },
+    {
+        "id": "c4a1e8b27d0f4a31",
+        "type": "function",
+        "z": "7d65e81e9d19f280",
+        "name": "Hora temperatura",
+        "func": "var dataHora;\nif (msg.payload !== null && typeof msg.payload === \"object\") {\n    dataHora = msg.payload.data_hora;\n    msg.payload = msg.payload.temperatura;\n} else {\n    dataHora = msg.data_hora;\n}\nif (typeof dataHora === \"string\" && dataHora !== \"sem-relogio\") {\n    var ms = Date.parse(dataHora);\n    if (isFinite(ms)) {\n        msg.timestamp = ms;\n        return msg;\n    }\n}\nvar instante = Number(msg.timestamp);\nif (!isFinite(instante)) {\n    return msg;\n}\nvar maior = context.get(\"maiorInstante\") || 0;\nif (instante > maior) {\n    maior = instante;\n    context.set(\"maiorInstante\", maior);\n}\nmsg.timestamp = Date.now() - maior + instante;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 890,
+        "y": 380,
+        "wires": [
+            [
+                "66a0e114bea71d93"
+            ]
+        ]
+    },
+    {
+        "id": "d5b2f9c38e104b42",
+        "type": "function",
+        "z": "7d65e81e9d19f280",
+        "name": "Hora BPM",
+        "func": "var dataHora;\nif (msg.payload !== null && typeof msg.payload === \"object\") {\n    dataHora = msg.payload.data_hora;\n    msg.payload = msg.payload.bpm;\n} else {\n    dataHora = msg.data_hora;\n}\nif (typeof dataHora === \"string\" && dataHora !== \"sem-relogio\") {\n    var ms = Date.parse(dataHora);\n    if (isFinite(ms)) {\n        msg.timestamp = ms;\n        return msg;\n    }\n}\nvar instante = Number(msg.timestamp);\nif (!isFinite(instante)) {\n    return msg;\n}\nvar maior = context.get(\"maiorInstante\") || 0;\nif (instante > maior) {\n    maior = instante;\n    context.set(\"maiorInstante\", maior);\n}\nmsg.timestamp = Date.now() - maior + instante;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 890,
+        "y": 580,
+        "wires": [
+            [
+                "8247846d19a524fe"
+            ]
+        ]
+    },
+    {
+        "id": "a6b7c8d91e2f4035",
+        "type": "mqtt in",
+        "z": "7d65e81e9d19f280",
+        "name": "Status pulseira",
+        "topic": "cardioia/pulseira/status",
+        "qos": "1",
+        "datatype": "utf8",
+        "broker": "a54a037cfc73d5d4",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 280,
+        "y": 160,
+        "wires": [
+            [
+                "d4e5f60718293a4b"
+            ]
+        ]
+    },
+    {
+        "id": "d4e5f60718293a4b",
+        "type": "ui_template",
+        "z": "7d65e81e9d19f280",
+        "group": "f3a8c1d04e6b4729",
+        "name": "Status ESP32",
+        "order": 1,
+        "width": "16",
+        "height": "1",
+        "format": "<div style=\"display:flex;align-items:center;justify-content:center;height:100%;font-size:28px;font-weight:600;\" ng-style=\"{color: (''+(msg.payload||'')).trim().toLowerCase()==='online' ? '#008000' : ((''+(msg.payload||'')).trim().toLowerCase()==='offline' ? '#ca3838' : '#666')}\">{{ (''+(msg.payload||'')).trim().toLowerCase()==='online' ? 'Online' : ((''+(msg.payload||'')).trim().toLowerCase()==='offline' ? 'Offline' : '\\u2014') }}</div>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 540,
+        "y": 160,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "9782fe47bbdc47a6",
+        "type": "ui_spacer",
+        "z": "7d65e81e9d19f280",
+        "name": "",
+        "group": "acb26d0a235df501",
+        "order": 2,
+        "width": 1,
+        "height": 1,
+        "wires": []
+    },
+    {
+        "id": "63aa10bae9b34353",
+        "type": "ui_spacer",
+        "z": "7d65e81e9d19f280",
+        "name": "",
+        "group": "bd46d747ae0d4724",
+        "order": 2,
+        "width": 1,
+        "height": 1,
+        "wires": []
+    },
+    {
+        "id": "a54a037cfc73d5d4",
+        "type": "mqtt-broker",
+        "name": "CardioIA_Hive_MQ",
+        "broker": "broker.hivemq.com",
+        "port": "8883",
+        "tls": "",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": true,
+        "protocolVersion": 4,
+        "keepalive": 60,
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "acb26d0a235df501",
+        "type": "ui_group",
+        "name": "Temperatura",
+        "tab": "8a2ee43ab90c8bde",
+        "order": 2,
+        "disp": true,
+        "width": "8",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "bd46d747ae0d4724",
+        "type": "ui_group",
+        "name": "BPM",
+        "tab": "8a2ee43ab90c8bde",
+        "order": 3,
+        "disp": true,
+        "width": "8",
+        "collapse": true,
+        "className": ""
+    },
+    {
+        "id": "f3a8c1d04e6b4729",
+        "type": "ui_group",
+        "name": "Status",
+        "tab": "8a2ee43ab90c8bde",
+        "order": 1,
+        "disp": true,
+        "width": "16",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "8a2ee43ab90c8bde",
+        "type": "ui_tab",
+        "name": "CardioAI",
+        "icon": "dashboard",
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "e1ce78d7ed7576f5",
+        "type": "global-config",
+        "env": [],
+        "modules": {
+            "node-red-dashboard": "3.6.6",
+            "node-red-contrib-ui-led": "0.4.11"
+        }
+    }
+]

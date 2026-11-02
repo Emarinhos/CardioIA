@@ -1,0 +1,4 @@
+# Bibliotecas usadas pelo compilador do Wokwi. O PlatformIO continua em platformio.ini.
+PubSubClient
+DHT sensor library
+Adafruit Unified Sensor
